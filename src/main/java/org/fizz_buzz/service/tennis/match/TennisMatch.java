@@ -58,18 +58,4 @@ public class TennisMatch implements Scorable {
     boolean isFinished() {
         return winner != null;
     }
-
-    public TennisScoreboardDTO getScoreboard() {
-        PlayerScoreDTO firstPlayer = new PlayerScoreDTO(this.firstPlayer.getName(),
-                this.firstPlayer.getScore().toString(),
-                getSet().getFirstPlayer().getScore().toString(),
-                getSet().getGame().getFirstPlayer().getScore().toString());
-        PlayerScoreDTO secondPlayer = new PlayerScoreDTO(this.secondPlayer.getName(),
-                this.secondPlayer.getScore().toString(),
-                getSet().getSecondPlayer().getScore().toString(),
-                getSet().getGame().getSecondPlayer().getScore().toString());
-        return new TennisScoreboardDTO(firstPlayer, secondPlayer);
-    }
-
-
 }
