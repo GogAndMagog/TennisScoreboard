@@ -6,8 +6,17 @@
 
     <groupId>org.fizz_buzz</groupId>
     <artifactId>TennisScoreboard</artifactId>
+    <packaging>war</packaging>
     <version>1.0-SNAPSHOT</version>
 
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>3.4.0</version>
+            </plugin>
+        </plugins>
+    </build>
 
     <dependencies>
         <dependency>
@@ -34,7 +43,7 @@
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
             <version>2.3.232</version>
-            <scope>test</scope>
+<!--            <scope>test</scope>-->
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
@@ -46,8 +55,13 @@
             <artifactId>guava</artifactId>
             <version>33.3.1-jre</version>
         </dependency>
+        <dependency>
+            <groupId>jakarta.servlet</groupId>
+            <artifactId>jakarta.servlet-api</artifactId>
+            <version>6.1.0</version>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
-
 
     <dependencyManagement>
         <dependencies>
