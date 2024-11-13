@@ -5,6 +5,7 @@ import org.hibernate.Session;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Optional;
 
 public abstract class AbstractHibernateDao<T extends Serializable> {
 
@@ -16,12 +17,12 @@ public abstract class AbstractHibernateDao<T extends Serializable> {
         clazz = Preconditions.checkNotNull(clazzToSet);
     }
 
-    public T findOne(final long id) {
+    public Optional<T> findOne(final long id) {
         var session = getCurrentSession();
         var entity = session.get(clazz, id);
         session.close();
 
-        return entity;
+        return Optional.ofNullable(entity);
     }
 
     public List<T> findAll() {
