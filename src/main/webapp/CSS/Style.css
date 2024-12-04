@@ -1,0 +1,129 @@
+.center {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+}
+
+.button > button {
+    height: 100px;
+    width: 300px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+/* Style the header/footer */
+header, footer {
+    padding: 30px;
+    text-align: center;
+    font-size: 75px;
+    display: block ruby;
+    background-color: black;
+    font-family: "Times New Roman";
+    -webkit-text-stroke-width: 2px;
+    -webkit-text-stroke-color: red;
+    -webkit-text-fill-color: black;
+}
+
+.padding100 {
+    padding: 100px;
+}
+
+.padding30 {
+    padding: 30px;
+}
+
+.morpheus {
+    background-image: url('../image/Морфей-Солнышко 2.png');
+    background-size: cover;
+}
+
+.mortalTennis {
+    background-image: url('../image/TennisVersus.png');
+    background-size: 600px;
+}
+
+.tennisCourt {
+    background-image: url('../image/TennisCourt.jpg');
+    background-size: 600px;
+}
+
+.mainPageForm {
+    height: 500px;
+    width: auto;
+    max-height: 1586px;
+    max-width: 2392px;
+}
+
+.createMatchForm {
+    height: 500px;
+    width: auto;
+    background-color: #000000c4;
+    color: red;
+}
+
+.mainPageButtonFont > button {
+    font-family: 'Comic Sans MS';
+    font-size: 30px;
+    border-radius: 50%;
+}
+
+.redElement {
+    color: red;
+}
+
+.searchMatchForm {
+    font-size: 35px;
+    -webkit-text-stroke-width: 1px;
+    width: 20%;
+    display: inline-block;
+}
+
+.headerImage {
+    width: 10%;
+    display: inline-block;
+}
+
+.headerText {
+    width: 60%;
+    display: inline-block;
+}
+
+.redElement {
+    color: red;
+}
+
+.aquaElement {
+    background-color: aqua;
+    border-color: aqua;
+}
+
+.jackpot {
+    border-radius: 50%;
+    border: 1px solid red;
+    width: 100px;
+    height: 100px;
+}
+
+table, th, td{
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+
+.matchTableCenter{
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.matchOperationSection{
+    background-color: blanchedalmond;
+    height: auto;
+    width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/*Reset default*/
+html, body {
+    margin: 0;
+    padding: 0;
+}

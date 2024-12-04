@@ -8,19 +8,35 @@ import org.fizz_buzz.service.tennis.Scorable;
 import org.fizz_buzz.service.tennis.score.MatchScore;
 import org.fizz_buzz.service.tennis.set.TennisSet;
 
+import java.util.UUID;
+
 @Getter
 public class TennisMatch implements Scorable {
 
+    private final UUID matchId;
     private final PlayerInfo<MatchScore> firstPlayer;
     private final PlayerInfo<MatchScore> secondPlayer;
     private String winner;
 
     private TennisSet set;
 
-    public TennisMatch(String firstPlayerName, String secondPlayerName) {
+    public TennisMatch(UUID matchId, String firstPlayerName, String secondPlayerName) {
+        this.matchId = matchId;
         firstPlayer = new PlayerInfo<>(firstPlayerName, new MatchScore());
         secondPlayer = new PlayerInfo<>(secondPlayerName, new MatchScore());
         set = new TennisSet(firstPlayerName, secondPlayerName);
+    }
+
+    public void addScore(String playerName){
+        if (playerName.equals(firstPlayer.getName())){
+            addScoreFirstPlayer();
+        }
+        else if (playerName.equals(secondPlayer.getName())){
+            addScoreSecondPlayer();
+        }
+        else{
+            throw new IllegalArgumentException("Player " + playerName + " is not a valid player");
+        }
     }
 
     @Override

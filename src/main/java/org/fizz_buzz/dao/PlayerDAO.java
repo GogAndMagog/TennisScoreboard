@@ -24,10 +24,16 @@ public class PlayerDAO extends AbstractHibernateDao<Player> {
     }
 
     public Optional<Player> findByName(String name) {
-        return Optional.ofNullable((Player) sessionFactory.getSession()
-                .createQuery("From Players WHERE name LIKE :name")
-                .setParameter("name", name)
-                .uniqueResult());
+
+
+        try(var session = sessionFactory.getSession()) {
+            return Optional.ofNullable((Player) session
+                    .createQuery("From Players WHERE name LIKE :name")
+                    .setParameter("name", name)
+                    .uniqueResult());
+        } catch (RuntimeException e) {
+            throw e;
+        }
     }
 
 }

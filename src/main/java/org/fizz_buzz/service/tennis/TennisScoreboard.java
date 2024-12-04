@@ -32,7 +32,7 @@ public class TennisScoreboard {
                 match.getSecondPlayer().getScore().toString(),
                 match.getSet().getSecondPlayer().getScore().toString(),
                 match.getSet().getGame().getSecondPlayer().getScore().toString());
-        return new TennisScoreboardDTO(firstPlayer, secondPlayer);
+        return new TennisScoreboardDTO(match.getMatchId(), firstPlayer, secondPlayer);
     }
 
 }

@@ -2,14 +2,22 @@ package org.fizz_buzz.dao;
 
 import lombok.extern.slf4j.Slf4j;
 import org.fizz_buzz.model.Match;
+import org.fizz_buzz.model.Player;
+import org.hibernate.exception.ConstraintViolationException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 @Slf4j
 class MatchDAOTest {
+
+    private static final String IVAN_NAME = "Ivan";
+    private static final String OLEG_NAME = "Oleg";
+    private static final String UUID_DUMMY = "9aab33d5-0cfc-412d-bbfe-79ac357211e7";
 
     @Test
     void findByPage() {
@@ -46,30 +54,43 @@ class MatchDAOTest {
 
     @Test
     void findByNameTest() {
-        String nameIvan = "Ivan";
-        String nameOleg = "Oleg";
 
         var dao = MatchDAO.getInstance();
-        var olegMatches = dao.findByName(nameOleg);
+        var olegMatches = dao.findByName(OLEG_NAME);
 
         log.info("Oleg matches: ");
         for (Match olegMatch : olegMatches) {
             log.info(olegMatch.toString());
         }
 
-        var ivanMatches = dao.findByName(nameIvan);
+        var ivanMatches = dao.findByName(IVAN_NAME);
 
         log.info("Ivan matches first page: ");
         for (Match ivanMatch : ivanMatches) {
             log.info(ivanMatch.toString());
         }
 
-        ivanMatches = dao.findByName(nameIvan, 2);
+        ivanMatches = dao.findByName(IVAN_NAME, 2);
 
         log.info("Ivan matches second page: ");
         for (Match ivanMatch : ivanMatches) {
             log.info(ivanMatch.toString());
         }
-
     }
+
+    @Test
+    void match_addTwoSamePlayers_sqlConstraintException() {
+
+        var dao = MatchDAO.getInstance();
+
+        var ivan = PlayerDAO.getInstance().findByName(IVAN_NAME);
+        Match testMatch = Match.builder().player1(ivan.get())
+                .player2(ivan.get())
+                .winner(ivan.get())
+                .uuid(UUID.fromString(UUID_DUMMY))
+                .build();
+        Assertions.assertThrows(RuntimeException.class, () -> {
+            dao.create(testMatch);});
+    }
+
 }

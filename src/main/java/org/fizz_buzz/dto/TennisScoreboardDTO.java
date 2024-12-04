@@ -1,4 +1,6 @@
 package org.fizz_buzz.dto;
 
-public record TennisScoreboardDTO(PlayerScoreDTO firstPlayer, PlayerScoreDTO secondPlayer) {
+import java.util.UUID;
+
+public record TennisScoreboardDTO(UUID id, PlayerScoreDTO firstPlayer, PlayerScoreDTO secondPlayer) {
 }

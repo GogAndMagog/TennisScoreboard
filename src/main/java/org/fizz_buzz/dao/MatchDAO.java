@@ -31,13 +31,17 @@ public class MatchDAO extends AbstractHibernateDao<Match> {
 
     public List<Match> findByPage(int limitPerPage, int page) {
         String sql = "SELECT m FROM Matches m";
-        var session = getCurrentSession();
 
-        Query query = session.createQuery(sql)
-                .setFirstResult(calculateOffset(page, limitPerPage))
-                .setMaxResults(limitPerPage)
-                .setOrder(Order.asc(Match.class, "id"));
-        return query.getResultList();
+        try(var session = getCurrentSession()) {
+            Query query = session.createQuery(sql)
+                    .setFirstResult(calculateOffset(page, limitPerPage))
+                    .setMaxResults(limitPerPage)
+                    .setOrder(Order.asc(Match.class, "id"));
+            return query.getResultList();
+        } catch (RuntimeException e) {
+            throw e;
+        }
+
     }
 
     public List<Match> findByName(String name) {
@@ -45,19 +49,29 @@ public class MatchDAO extends AbstractHibernateDao<Match> {
     }
 
     public List<Match> findByName(String name, int page) {
-        String sql =
-                """
-                        SELECT m FROM Matches m\s
-                            WHERE   m.player1.name LIKE :name\s
-                                OR  m.player2.name LIKE :name""";
-        var session = getCurrentSession();
 
-        Query query = session.createQuery(sql)
-                .setParameter("name", name)
-                .setFirstResult(calculateOffset(page, pageSize))
-                .setMaxResults(pageSize)
-                .setOrder(Order.asc(Match.class, "id"));
-        return query.getResultList();
+
+        try(var session = getCurrentSession()) {
+            String sql =
+                    """
+                                        
+                                            SELECT m FROM Matches m\s
+                                            WHERE   m.player1.name LIKE :name\s
+                                                OR  m.player2.
+                            name LIKE :name""";
+
+            Query query
+                    = session.createQuery(sql)
+                    .setParameter("name", name)
+                            .
+                    setFirstResult(
+                            calculateOffset(page, pageSize))
+                    .setMaxResults(pageSize)
+                    .setOrder(Order.asc(Match.class, "id"));
+            return query.getResultList();
+        } catch (RuntimeException e) {
+            throw e;
+        }
     }
 
     private int calculateOffset(int page, int limit) {

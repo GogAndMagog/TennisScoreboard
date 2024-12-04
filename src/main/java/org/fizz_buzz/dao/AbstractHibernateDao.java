@@ -18,27 +18,38 @@ public abstract class AbstractHibernateDao<T extends Serializable> {
     }
 
     public Optional<T> findOne(final long id) {
-        var session = getCurrentSession();
-        var entity = session.get(clazz, id);
-        session.close();
+        try (var session = getCurrentSession()) {
+            var entity = session.get(clazz, id);
+            session.close();
 
-        return Optional.ofNullable(entity);
+            return Optional.ofNullable(entity);
+
+        } catch (RuntimeException e) {
+            throw e;
+        }
     }
 
     public List<T> findAll() {
-        var session = getCurrentSession();
-        var entities = session.createQuery("from " + clazz.getName()).list();
-        session.close();
+        try (var session = getCurrentSession()) {
+            var entities = session.createQuery("from " + clazz.getName()).list();
+            session.close();
 
-        return entities;
+            return entities;
+        } catch (RuntimeException e) {
+            throw e;
+        }
     }
 
     public T create(final T entity) {
         Preconditions.checkNotNull(entity);
-        var currentSession = getCurrentSession();
-        currentSession.saveOrUpdate(entity);
-        currentSession.close();
-        return entity;
+
+        try (var currentSession = getCurrentSession()) {
+            currentSession.saveOrUpdate(entity);
+            currentSession.close();
+            return entity;
+        } catch (RuntimeException e) {
+            throw e;
+        }
     }
 
     protected Session getCurrentSession() {

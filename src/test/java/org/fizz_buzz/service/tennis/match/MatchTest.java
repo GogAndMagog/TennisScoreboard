@@ -4,6 +4,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.fizz_buzz.service.tennis.TennisScoreboard;
 import org.junit.jupiter.api.Test;
 
+import java.util.UUID;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @Slf4j
@@ -14,8 +16,8 @@ class MatchTest {
 
     @Test
     void matchTest() {
-        TennisMatch testTennisMatch = new TennisMatch(BOB_NAME, JOE_NAME);
-        TennisScoreboard testScoreboard = new TennisScoreboard(testTennisMatch);
+        TennisMatch testTennisMatch = new TennisMatch(UUID.randomUUID(), BOB_NAME, JOE_NAME);
+        TennisScoreboard testScoreboard = TennisScoreboard.getInstance();
 
         winSetSecondPlayer(testTennisMatch);
         winSetSecondPlayer(testTennisMatch);
@@ -25,10 +27,10 @@ class MatchTest {
         assertEquals(2, testTennisMatch.getSecondPlayer().getScore().getState());
         assertTrue(testTennisMatch.isFinished());
         assertEquals(JOE_NAME, testTennisMatch.getWinner());
-        log.info(testScoreboard.getScoreboard().toString());
+        log.info(testScoreboard.getScoreboard(testTennisMatch).toString());
 
-        testTennisMatch = new TennisMatch(BOB_NAME, JOE_NAME);
-        testScoreboard = new TennisScoreboard(testTennisMatch);
+        testTennisMatch = new TennisMatch(UUID.randomUUID(), BOB_NAME, JOE_NAME);
+        testScoreboard = TennisScoreboard.getInstance();
 
         winSetFirstPlayer(testTennisMatch);
         winSetSecondPlayer(testTennisMatch);
@@ -38,7 +40,7 @@ class MatchTest {
         assertTrue(testTennisMatch.isFinished());
         assertEquals(BOB_NAME, testTennisMatch.getWinner());
 
-        log.info(testScoreboard.getScoreboard().toString());
+        log.info(testScoreboard.getScoreboard(testTennisMatch).toString());
     }
 
     private void winGameFirstPlayer(TennisMatch tennisMatch) {
