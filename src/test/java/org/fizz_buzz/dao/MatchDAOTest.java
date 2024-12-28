@@ -2,10 +2,7 @@ package org.fizz_buzz.dao;
 
 import lombok.extern.slf4j.Slf4j;
 import org.fizz_buzz.model.Match;
-import org.fizz_buzz.model.Player;
-import org.hibernate.exception.ConstraintViolationException;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.UUID;
@@ -17,6 +14,7 @@ class MatchDAOTest {
 
     private static final String IVAN_NAME = "Ivan";
     private static final String OLEG_NAME = "Oleg";
+    private static final String SASHA_NAME = "Sasha";
     private static final String UUID_DUMMY = "9aab33d5-0cfc-412d-bbfe-79ac357211e7";
 
     @Test
@@ -93,4 +91,18 @@ class MatchDAOTest {
             dao.create(testMatch);});
     }
 
+
+    @Test
+    void matchPage_countPages_noExceptions()
+    {
+        var dao = MatchDAO.getInstance();
+
+        try {
+            log.info(Long.toString(dao.totalPages(MatchDAO.DEFAULT_PAGE_SIZE)));
+            log.info(Long.toString(dao.totalPages(MatchDAO.DEFAULT_PAGE_SIZE, SASHA_NAME)));
+            log.info(Long.toString(dao.totalPages(1, SASHA_NAME)));
+        } catch (Exception e) {
+            log.error(e.getMessage());
+        }
+    }
 }

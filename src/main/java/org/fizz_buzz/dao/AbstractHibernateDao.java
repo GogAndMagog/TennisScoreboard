@@ -1,12 +1,14 @@
 package org.fizz_buzz.dao;
 
 import com.google.common.base.Preconditions;
+import lombok.extern.slf4j.Slf4j;
 import org.hibernate.Session;
 
 import java.io.Serializable;
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 public abstract class AbstractHibernateDao<T extends Serializable> {
 
     private Class<T> clazz;
@@ -20,22 +22,20 @@ public abstract class AbstractHibernateDao<T extends Serializable> {
     public Optional<T> findOne(final long id) {
         try (var session = getCurrentSession()) {
             var entity = session.get(clazz, id);
-            session.close();
 
             return Optional.ofNullable(entity);
 
         } catch (RuntimeException e) {
+            log.error(e.getMessage(), e);
             throw e;
         }
     }
 
     public List<T> findAll() {
         try (var session = getCurrentSession()) {
-            var entities = session.createQuery("from " + clazz.getName()).list();
-            session.close();
-
-            return entities;
+            return session.createSelectionQuery("from " + clazz.getName(), clazz).list();
         } catch (RuntimeException e) {
+            log.error(e.getMessage(), e);
             throw e;
         }
     }
@@ -44,10 +44,13 @@ public abstract class AbstractHibernateDao<T extends Serializable> {
         Preconditions.checkNotNull(entity);
 
         try (var currentSession = getCurrentSession()) {
-            currentSession.saveOrUpdate(entity);
-            currentSession.close();
+            currentSession.beginTransaction();
+            currentSession.persist(entity);
+            currentSession.flush();
+            currentSession.getTransaction().commit();
             return entity;
         } catch (RuntimeException e) {
+            log.error(e.getMessage(), e);
             throw e;
         }
     }

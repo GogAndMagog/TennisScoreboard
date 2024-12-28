@@ -36,7 +36,7 @@ public class TennisSet implements Scorable {
 
     @Override
     public void addScoreSecondPlayer() {
-        game.addScoreFirstPlayer();
+        game.addScoreSecondPlayer();
         if (game.isFinished()) {
             addScore(secondPlayer, firstPlayer);
         }

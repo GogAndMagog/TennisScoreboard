@@ -1,12 +1,13 @@
 package org.fizz_buzz.service.tennis;
 
 import lombok.extern.slf4j.Slf4j;
+import org.fizz_buzz.controller.MatchScoreController;
 import org.junit.jupiter.api.Test;
 
 import java.util.UUID;
 
 @Slf4j
-class MatchesServiceTest {
+class MatchScoreControllerTest {
 
     private final static String BOB_NAME = "Bob";
     private final static String JOE_NAME = "Joe";
@@ -16,33 +17,33 @@ class MatchesServiceTest {
     @Test
     void lifecycleTest()
     {
-        var tennisService = MatchesService.getInstance();
+        var tennisService = MatchScoreController.getInstance();
 
         var matchId = tennisService.createMatch(BOB_NAME, JOE_NAME);
 
-        tennisService.addScoreFirstPlayer(matchId);
+        tennisService.addScore(matchId, BOB_NAME);
         log.info(tennisService.getScoreboard(matchId).toString());
 
-        winSetFirstPlayer(matchId);
+        winSet(matchId, BOB_NAME);
         log.info(tennisService.getScoreboard(matchId).toString());
 
         tennisService.deleteMatch(matchId);
         tennisService.getScoreboard(matchId)
                 .ifPresentOrElse(tennisScoreboardDTO -> log.info(tennisScoreboardDTO.toString()),
-                        () -> log.info(MATCH_DID_NOT_EXISTS.formatted(matchId)));
+                        () -> log.info(MATCH_DID_NOT_EXISTS.formatted(matchId.toString())));
     }
 
-    void winGameFirstPlayer(UUID matchId)
+    void winGame(UUID matchId, String playerName)
     {
         for (int i = 0; i < 4; i++) {
-            MatchesService.getInstance().addScoreFirstPlayer(matchId);
+            MatchScoreController.getInstance().addScore(matchId, playerName);
         }
     }
 
-    void winSetFirstPlayer(UUID matchId)
+    void winSet(UUID matchId, String playerName)
     {
         for (int i = 0; i < 6; i++) {
-            winGameFirstPlayer(matchId);
+            winGame(matchId, playerName);
         }
     }
 

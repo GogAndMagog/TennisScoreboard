@@ -3,6 +3,7 @@ package org.fizz_buzz.dao;
 import jakarta.persistence.Persistence;
 import jakarta.persistence.PersistenceUnit;
 import jakarta.persistence.SharedCacheMode;
+import lombok.extern.slf4j.Slf4j;
 import org.fizz_buzz.model.Match;
 import org.fizz_buzz.model.Player;
 import org.hibernate.Session;
@@ -10,11 +11,8 @@ import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
-import org.hibernate.cfg.Configuration;
 
-import java.io.ObjectInputFilter;
-import java.util.Collections;
-
+@Slf4j
 public class SessionProvider {
 
     private volatile static SessionProvider instance;
@@ -26,27 +24,14 @@ public class SessionProvider {
                 new StandardServiceRegistryBuilder()
                         .build();
         try {
-//            Class.forName("org.h2.Driver");
-//            Configuration cfg = new Configuration();
             factory =
-//                    cfg
-//                            .addAnnotatedClass(Player.class)
-//                            .addAnnotatedClass(Match.class)
-//                            .configure()
-//                            .buildSessionFactory();
-
-//                    .createEntityManagerFactory(
-//                            "HypersistenceOptimizer",
-//                            Collections.singletonMap(
-//                                    "javax.persistence.cache.storeMode",
-//                                    SharedCacheMode.ENABLE_SELECTIVE
-//                            )) ;
                     new MetadataSources(registry)
                             .addAnnotatedClass(Match.class)
                             .addAnnotatedClass(Player.class)
                             .buildMetadata()
                             .buildSessionFactory();
         } catch (Exception e) {
+            log.error(e.getMessage(), e);
             StandardServiceRegistryBuilder.destroy(registry);
             throw new ExceptionInInitializerError(e);
         }

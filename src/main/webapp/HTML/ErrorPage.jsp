@@ -8,7 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page session="false" %>
-<%@include file="CommonHeader.html" %>
+<%@include file="CommonHeader.jsp" %>
 <html>
 <head>
     <title>Home</title>
@@ -21,5 +21,5 @@
     <h2>${errorMsg}</h2>
 </div>
 </body>
-<%@include file="CommonFooter.html" %>
+<%@include file="CommonFooter.jsp" %>
 </html>

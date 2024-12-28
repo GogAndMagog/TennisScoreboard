@@ -24,15 +24,23 @@ public class TennisScoreboard {
     }
 
     public TennisScoreboardDTO getScoreboard(TennisMatch match) {
+
         PlayerScoreDTO firstPlayer = new PlayerScoreDTO(match.getFirstPlayer().getName(),
                 match.getFirstPlayer().getScore().toString(),
                 match.getSet().getFirstPlayer().getScore().toString(),
                 match.getSet().getGame().getFirstPlayer().getScore().toString());
+
         PlayerScoreDTO secondPlayer = new PlayerScoreDTO(match.getSecondPlayer().getName(),
                 match.getSecondPlayer().getScore().toString(),
                 match.getSet().getSecondPlayer().getScore().toString(),
                 match.getSet().getGame().getSecondPlayer().getScore().toString());
-        return new TennisScoreboardDTO(match.getMatchId(), firstPlayer, secondPlayer);
+
+        String winner = "";
+        if (match.isFinished()){
+            winner = match.getWinner();
+        }
+
+        return new TennisScoreboardDTO(match.getMatchId(), firstPlayer, secondPlayer, winner);
     }
 
 }

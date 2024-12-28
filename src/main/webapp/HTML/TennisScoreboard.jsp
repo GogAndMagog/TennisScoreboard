@@ -11,56 +11,56 @@
     <title>Tennis match</title>
     <%@ taglib prefix="c" uri="jakarta.tags.core" %>
     <%@include file="/HTML/GlobalVariables.jsp" %>
-    <%@include file="CommonHeader.html" %>
+    <%@include file="CommonHeader.jsp" %>
 </head>
 <body>
 <div class="tennisCourt">
     <div class="matchOperationSection padding30">
-    <div>
-        <h1 class="center">Tennis scoreboard</h1>
-        <table class="matchTableCenter">
-            <tr>
-                <th>Player</th>
-                <th>Set</th>
-                <th>Game</th>
-                <th>Score</th>
-            </tr>
-            <c:choose>
-                <c:when test="${not empty tennisScoreboard && not empty tennisScoreboard.firstPlayer()}">
-                    <tr>
-                        <td><c:out value="${tennisScoreboard.firstPlayer().name()}"/></td>
-                        <td><c:out value="${tennisScoreboard.firstPlayer().setNumber()}"/></td>
-                        <td><c:out value="${tennisScoreboard.firstPlayer().gameNumber()}"/></td>
-                        <td><c:out value="${tennisScoreboard.firstPlayer().score()}"/></td>
-                    </tr>
-                </c:when>
-            </c:choose>
-            <c:choose>
-                <c:when test="${not empty tennisScoreboard && not empty tennisScoreboard.secondPlayer()}">
-                    <tr>
-                        <td><c:out value="${tennisScoreboard.secondPlayer().name()}"/></td>
-                        <td><c:out value="${tennisScoreboard.secondPlayer().setNumber()}"/></td>
-                        <td><c:out value="${tennisScoreboard.secondPlayer().gameNumber()}"/></td>
-                        <td><c:out value="${tennisScoreboard.secondPlayer().score()}"/></td>
-                    </tr>
-                </c:when>
-            </c:choose>
-        </table>
+        <div>
+            <h1 class="center whiteElement">Tennis scoreboard</h1>
+            <table class="tableCenter tableConfig">
+                <tr>
+                    <th>Player</th>
+                    <th>Set</th>
+                    <th>Game</th>
+                    <th>Score</th>
+                </tr>
+                <c:choose>
+                    <c:when test="${not empty tennisScoreboard && not empty tennisScoreboard.firstPlayer()}">
+                        <tr>
+                            <td><c:out value="${tennisScoreboard.firstPlayer().name()}"/></td>
+                            <td><c:out value="${tennisScoreboard.firstPlayer().setNumber()}"/></td>
+                            <td><c:out value="${tennisScoreboard.firstPlayer().gameNumber()}"/></td>
+                            <td><c:out value="${tennisScoreboard.firstPlayer().score()}"/></td>
+                        </tr>
+                    </c:when>
+                </c:choose>
+                <c:choose>
+                    <c:when test="${not empty tennisScoreboard && not empty tennisScoreboard.secondPlayer()}">
+                        <tr>
+                            <td><c:out value="${tennisScoreboard.secondPlayer().name()}"/></td>
+                            <td><c:out value="${tennisScoreboard.secondPlayer().setNumber()}"/></td>
+                            <td><c:out value="${tennisScoreboard.secondPlayer().gameNumber()}"/></td>
+                            <td><c:out value="${tennisScoreboard.secondPlayer().score()}"/></td>
+                        </tr>
+                    </c:when>
+                </c:choose>
+            </table>
+        </div>
+        <div class="actionsForm center padding30">
+            <form method="post" action="${actionMatchScore}">
+<%--            <form method="post" action="http://${host}/${appContext}/${actionMatchScore}">--%>
+                <input type="hidden" name="uuid" value="${uuid}" />
+                <button class="button"
+                        name="playerName" value="<c:out value="${tennisScoreboard.firstPlayer().name()}"/>"
+                        type="submit">Add score to player ${tennisScoreboard.firstPlayer().name()}</button>
+                <button class="button"
+                        name="playerName" value="<c:out value="${tennisScoreboard.secondPlayer().name()}"/>"
+                        type="submit">Add score to player ${tennisScoreboard.secondPlayer().name()}</button>
+            </form>
+        </div>
     </div>
-    <div class="actionsForm center padding30">
-        <form method="post" action="http://${host}/${appContext}/${actionMatchScore}">
-            <button name="addScoreFirstPlayer"
-                    value="<c:out value="1"/>"
-<%--                    formaction="<c:out value="http://${host}/${appContext}/${actionMatchScore}"/>"--%>
-                    type="submit">Add score to player ${tennisScoreboard.firstPlayer().name()}</button>
-            <button name="addScoreSecondPlayer"
-                    value="<c:out value="2"/>"
-<%--                    formaction="<c:out value="http://${host}/${appContext}/${actionMatchScore}"/>"--%>
-                    type="submit">Add score to player ${tennisScoreboard.secondPlayer().name()}</button>
-        </form>
-    </div>
-    </div>>
 </div>
-<%@include file="CommonFooter.html" %>
+<%@include file="CommonFooter.jsp" %>
 </body>
 </html>

@@ -12,7 +12,22 @@
         </filter>
     </appender>
     <appender name="file" class="org.apache.log4j.FileAppender">
-        <param name="file" value="hibernate-test.log"/>
+        <param name="file" value="hibernate.log"/>
+
+        <param name="append" value="true"/>
+        <param name="maxFileSize" value="10MB"/>
+        <param name="maxBackupIndex" value="10"/>
+
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="conversionPattern" value="[%d{HH:mm:ss,SSS} %p [%c: %L] %m%n"/>
+        </layout>
+
+        <filter class="org.apache.log4j.varia.LevelRangeFilter">
+            <param name="levelMin" value="INFO"/>
+        </filter>
+    </appender>
+    <appender name="file" class="org.apache.log4j.FileAppender">
+        <param name="file" value="Errors.log"/>
 
         <param name="append" value="true"/>
         <param name="maxFileSize" value="10MB"/>
@@ -26,6 +41,7 @@
             <param name="levelMin" value="ALL"/>
         </filter>
     </appender>
+
 
     <root>
         <level value="trace"/>

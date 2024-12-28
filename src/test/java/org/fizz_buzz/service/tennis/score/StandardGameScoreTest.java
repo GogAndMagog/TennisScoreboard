@@ -22,9 +22,6 @@ class StandardGameScoreTest {
         score.setState(StandardGameScoreState.FIFTEEN);
         assertEquals(StandardGameScoreState.FIFTEEN.toString(), score.toString());
 
-        for (int i = 0; i < 20; i++) {
-//            score.addScore();
-        }
         assertEquals(StandardGameScoreState.values()[StandardGameScoreState.values().length - 1].toString(), score.toString());
     }
 

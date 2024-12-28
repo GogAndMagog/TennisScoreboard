@@ -5,14 +5,14 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.jsp.JspWriter;
-
 import java.io.IOException;
 
-@WebServlet(urlPatterns = {""})
+@WebServlet(urlPatterns = MainPageServlet.URL_PATTERN)
 public class MainPageServlet extends HttpServlet {
 
-    private static final String MAIN_PAGE_URL = "/HTML/MainPage.shtml";
+    public static final String URL_PATTERN = "";
+
+    private static final String MAIN_PAGE_URL = "/HTML/MainPage.jsp";
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

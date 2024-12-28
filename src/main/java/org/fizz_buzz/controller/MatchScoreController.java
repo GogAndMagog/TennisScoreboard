@@ -1,7 +1,8 @@
-package org.fizz_buzz.service.tennis;
+package org.fizz_buzz.controller;
 
 import org.fizz_buzz.dao.PlayerDAO;
 import org.fizz_buzz.dto.TennisScoreboardDTO;
+import org.fizz_buzz.service.tennis.TennisScoreboard;
 import org.fizz_buzz.service.tennis.match.TennisMatch;
 
 import java.util.Map;
@@ -9,20 +10,23 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class MatchesService {
+public class MatchScoreController {
+
+    private static final String MATCH_NOT_FOUND = "Match with id: %s not found";
+
     private final Map<UUID, TennisMatch> ongoingMatches;
 
-    private volatile static MatchesService instance = new MatchesService();
+    private volatile static MatchScoreController instance = new MatchScoreController();
 
-    private MatchesService() {
+    private MatchScoreController() {
         ongoingMatches = new ConcurrentHashMap<>();
     }
 
-    public static MatchesService getInstance() {
+    public static MatchScoreController getInstance() {
         if (instance == null) {
             synchronized (PlayerDAO.class) {
                 if (instance == null) {
-                    instance = new MatchesService();
+                    instance = new MatchScoreController();
                 }
             }
         }
@@ -40,14 +44,15 @@ public class MatchesService {
         ongoingMatches.remove(id);
     }
 
-    public void addScoreFirstPlayer(UUID id) {
-        var match = ongoingMatches.get(id);
-        match.addScoreFirstPlayer();
-    }
+    public void addScore(UUID matchId, String playerName){
+        var match = ongoingMatches.get(matchId);
 
-    public void addScoreSecondPlayer(UUID id) {
-        var match = ongoingMatches.get(id);
-        match.addScoreSecondPlayer();
+        if (match != null) {
+            match.addScore(playerName);
+        }
+        else {
+            throw new IllegalArgumentException(MATCH_NOT_FOUND.formatted(matchId.toString()));
+        }
     }
 
     public Optional<TennisScoreboardDTO> getScoreboard(UUID matchId) {

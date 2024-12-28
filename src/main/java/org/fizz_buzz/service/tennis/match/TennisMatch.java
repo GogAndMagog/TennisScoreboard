@@ -1,8 +1,6 @@
 package org.fizz_buzz.service.tennis.match;
 
 import lombok.Getter;
-import org.fizz_buzz.dto.PlayerScoreDTO;
-import org.fizz_buzz.dto.TennisScoreboardDTO;
 import org.fizz_buzz.service.tennis.PlayerInfo;
 import org.fizz_buzz.service.tennis.Scorable;
 import org.fizz_buzz.service.tennis.score.MatchScore;
@@ -71,7 +69,7 @@ public class TennisMatch implements Scorable {
         return player.getScore().getState() == 2;
     }
 
-    boolean isFinished() {
+    public boolean isFinished() {
         return winner != null;
     }
 }

@@ -24,6 +24,13 @@ header, footer {
     -webkit-text-fill-color: black;
 }
 
+.tableConfig{
+    width: 100%;
+    color: red;
+    font-size: 26px;
+    font-weight: bold;
+}
+
 .padding100 {
     padding: 100px;
 }
@@ -47,6 +54,16 @@ header, footer {
     background-size: 600px;
 }
 
+.backgroundFinishedMatch{
+    background-image: url('../image/MatchFinished.png');
+    background-size: 600px;
+}
+
+.backgroundMatches{
+    background-image: url('../image/MatchesBackground.png');
+    background-size: 600px;
+}
+
 .mainPageForm {
     height: 500px;
     width: auto;
@@ -61,6 +78,10 @@ header, footer {
     color: red;
 }
 
+.paddingTop30{
+    padding-top: 30px;
+}
+
 .mainPageButtonFont > button {
     font-family: 'Comic Sans MS';
     font-size: 30px;
@@ -69,6 +90,10 @@ header, footer {
 
 .redElement {
     color: red;
+}
+
+.whiteElement {
+    color: white;
 }
 
 .searchMatchForm {
@@ -92,7 +117,14 @@ header, footer {
     color: red;
 }
 
-.aquaElement {
+.redButtonElement {
+    color: white;
+    background-color: red;
+    border-color: red;
+}
+
+.aquaButtonElement {
+    color: white;
     background-color: aqua;
     border-color: aqua;
 }
@@ -105,19 +137,63 @@ header, footer {
 }
 
 table, th, td{
-    border: 1px solid black;
+    border: 1px solid red;
     border-collapse: collapse;
 }
 
-.matchTableCenter{
+.tableCenter{
     margin-left: auto;
     margin-right: auto;
 }
 
 .matchOperationSection{
-    background-color: blanchedalmond;
+    background-color: #000000c4;
     height: auto;
     width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.contentFinishedMatch{
+    background-color: #000000c4;
+    height: auto;
+    width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.contentMatches{
+    background-color: #000000c4;
+    height: auto;
+    width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+    a:link {
+        color: red;
+        background-color: transparent;
+        text-decoration: none;
+    }
+    a:visited {
+        color: red;
+        background-color: transparent;
+        text-decoration: none;
+    }
+    a:hover {
+        color: yellow;
+        background-color: transparent;
+        text-decoration: underline;
+    }
+}
+
+.block{
+    display: block;
+}
+
+.paginationConfig{
+    justify-content: space-between;
+    display: flex;
+    padding: 30px;
+    max-width: 300px;
     margin-left: auto;
     margin-right: auto;
 }
