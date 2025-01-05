@@ -3,6 +3,7 @@ package org.fizz_buzz.dao;
 import lombok.extern.slf4j.Slf4j;
 import org.fizz_buzz.model.Match;
 import org.hibernate.query.Order;
+
 import java.util.List;
 
 @Slf4j
@@ -37,8 +38,7 @@ public class MatchDAO extends AbstractHibernateDao<Match> {
                     .setMaxResults(limitPerPage)
                     .setOrder(Order.asc(Match.class, "id"));
             return query.getResultList();
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             log.error(e.getMessage(), e);
             throw new RuntimeException(e);
         }
@@ -54,19 +54,18 @@ public class MatchDAO extends AbstractHibernateDao<Match> {
             String sql =
                     """                                        
                             SELECT m FROM Matches m\s
-                                WHERE   m.player1.name LIKE :name\s
-                                    OR  m.player2.name LIKE :name""";
+                                WHERE   m.player1.name ILIKE :name\s
+                                    OR  m.player2.name ILIKE :name""";
 
             var query = session
                     .createSelectionQuery(sql, Match.class)
-                    .setParameter("name", name)
+                    .setParameter("name", "%" + name + "%")
                     .setFirstResult(calculateOffset(page, DEFAULT_PAGE_SIZE))
                     .setMaxResults(DEFAULT_PAGE_SIZE)
                     .setOrder(Order.asc(Match.class, "id"));
 
             return query.getResultList();
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             log.error(e.getMessage(), e);
             throw new RuntimeException(e);
         }
@@ -95,8 +94,7 @@ public class MatchDAO extends AbstractHibernateDao<Match> {
             }
 
             return pageNumbers;
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             log.error(e.getMessage(), e);
             throw new RuntimeException(e);
         }
@@ -107,11 +105,13 @@ public class MatchDAO extends AbstractHibernateDao<Match> {
             String sql =
                     """                                        
                             SELECT COUNT(m) FROM Matches m
-                                WHERE   m.player1.name LIKE :name\s
-                                    OR  m.player2.name LIKE :name
+                                WHERE   m.player1.name ILIKE :name\s
+                                    OR  m.player2.name ILIKE :name
                             """;
 
-            var query = session.createSelectionQuery(sql, Long.class).setParameter("name", playerName);
+            var query = session
+                    .createSelectionQuery(sql, Long.class)
+                    .setParameter("name", "%" + playerName + "%");
 
             var totalRows = query.uniqueResult().intValue();
             var pageNumbers = totalRows / pageSize;
@@ -120,8 +120,7 @@ public class MatchDAO extends AbstractHibernateDao<Match> {
             }
 
             return pageNumbers;
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             log.error(e.getMessage(), e);
             throw new RuntimeException(e);
         }

@@ -28,7 +28,7 @@ public class PlayerDAO extends AbstractHibernateDao<Player> {
     public Optional<Player> findByName(String name) {
         try(var session = sessionFactory.getSession()) {
             return Optional.ofNullable(session
-                    .createSelectionQuery("FROM Players WHERE name LIKE :name", Player.class)
+                    .createSelectionQuery("FROM Players WHERE name ILIKE :name", Player.class)
                     .setParameter("name", name)
                     .uniqueResult());
         } catch (RuntimeException e) {
