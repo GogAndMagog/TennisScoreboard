@@ -8,7 +8,7 @@
 </head>
 <body>
 <header>
-    <a class="headerImage" href="http://localhost:8080/TennisScoreboard" methods="get"><img src="image/TennisBallIcon.png" alt="Main page" style="width: 100px; height: 100px;"></a>
+    <a class="headerImage" href="${pageContext.request.contextPath}" methods="get"><img src="image/TennisBallIcon.png" alt="Main page" style="width: 100px; height: 100px;"></a>
     <text class="headerText">Tennis scoreboard</text>
     <form class="searchMatchForm" action="matches">
         <label for="playerName">Show matches:</label><br>
