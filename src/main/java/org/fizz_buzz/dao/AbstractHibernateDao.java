@@ -2,32 +2,31 @@ package org.fizz_buzz.dao;
 
 import com.google.common.base.Preconditions;
 import lombok.extern.slf4j.Slf4j;
+import org.fizz_buzz.exception.DAOException;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 import java.io.Serializable;
 import java.util.List;
 import java.util.Optional;
 
-@Slf4j
 public abstract class AbstractHibernateDao<T extends Serializable> {
 
-    private Class<T> clazz;
+    protected Class<T> clazz;
 
     protected SessionProvider sessionFactory = SessionProvider.getInstance();
 
-    public final void setClazz(final Class<T> clazzToSet) {
+    protected final void setClazz(final Class<T> clazzToSet) {
         clazz = Preconditions.checkNotNull(clazzToSet);
     }
 
-    public Optional<T> findOne(final long id) {
+    public Optional<T> findById(final long id) {
         try (var session = getCurrentSession()) {
             var entity = session.get(clazz, id);
 
             return Optional.ofNullable(entity);
-
         } catch (RuntimeException e) {
-            log.error(e.getMessage(), e);
-            throw e;
+            throw new DAOException(this.clazz.toString(), "Can't find by id: %d".formatted(id), e);
         }
     }
 
@@ -35,23 +34,24 @@ public abstract class AbstractHibernateDao<T extends Serializable> {
         try (var session = getCurrentSession()) {
             return session.createSelectionQuery("from " + clazz.getName(), clazz).list();
         } catch (RuntimeException e) {
-            log.error(e.getMessage(), e);
-            throw e;
+            throw new DAOException(this.clazz.toString(), "Can't find all", e);
         }
     }
 
     public T create(final T entity) {
         Preconditions.checkNotNull(entity);
 
-        try (var currentSession = getCurrentSession()) {
+        var currentSession = getCurrentSession();
+        try {
             currentSession.beginTransaction();
             currentSession.persist(entity);
-            currentSession.flush();
             currentSession.getTransaction().commit();
             return entity;
         } catch (RuntimeException e) {
-            log.error(e.getMessage(), e);
-            throw e;
+            currentSession.getTransaction().rollback();
+            throw new DAOException(this.clazz.toString(), "Can't create entity", e);
+        } finally {
+            currentSession.close();
         }
     }
 

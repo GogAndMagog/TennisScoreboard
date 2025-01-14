@@ -1,7 +1,7 @@
-package org.fizz_buzz.service.tennis.game;
+package org.fizz_buzz.domain.tennis.game;
 
-import org.fizz_buzz.service.tennis.PlayerInfo;
-import org.fizz_buzz.service.tennis.score.TiebreakGameScore;
+import org.fizz_buzz.domain.tennis.PlayerInfo;
+import org.fizz_buzz.domain.tennis.score.TiebreakGameScore;
 
 public class TiebreakGame extends TennisGame<TiebreakGameScore> {
 

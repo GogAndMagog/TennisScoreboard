@@ -1,5 +1,6 @@
 package org.fizz_buzz.controller.filter;
 
+import org.fizz_buzz.validation.ParamValidator;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -140,47 +141,5 @@ class ParamValidatorTest {
         String nonObsceneWord = "apple";
 
         assertFalse(paramValidator.isObscene(nonObsceneWord));
-    }
-
-    @Test
-    void isMatchPageExists_NoNameLargePageNumber_ReturnFalse(){
-        ParamValidator paramValidator = ParamValidator.getInstance();
-        int pageNumber = 9000;
-
-        assertFalse(paramValidator.isMatchPageExists(pageNumber));
-    }
-
-    @Test
-    void isMatchPageExists_NoNameExistingPageNumber_ReturnTrue(){
-        ParamValidator paramValidator = ParamValidator.getInstance();
-        int pageNumber = 1;
-
-        assertTrue(paramValidator.isMatchPageExists(pageNumber));
-    }
-
-    @Test
-    void isMatchPageExists_NoNameNegativePageNumber_ReturnTrue(){
-        ParamValidator paramValidator = ParamValidator.getInstance();
-        int pageNumber = -1;
-
-        assertFalse(paramValidator.isMatchPageExists(pageNumber));
-    }
-
-    @Test
-    void isMatchPageExists_WithNameLargePageNumber_ReturnFalse(){
-        ParamValidator paramValidator = ParamValidator.getInstance();
-        int pageNumber = 9000;
-        String playerName = "Oleg";
-
-        assertFalse(paramValidator.isMatchPageExists(pageNumber, playerName));
-    }
-
-    @Test
-    void isMatchPageExists_WithNameExistingPageNumber_ReturnTrue(){
-        ParamValidator paramValidator = ParamValidator.getInstance();
-        int pageNumber = 1;
-        String playerName = "Oleg";
-
-        assertTrue(paramValidator.isMatchPageExists(pageNumber, playerName));
     }
 }

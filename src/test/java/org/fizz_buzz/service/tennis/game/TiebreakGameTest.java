@@ -1,6 +1,8 @@
 package org.fizz_buzz.service.tennis.game;
 
 import lombok.extern.slf4j.Slf4j;
+import org.fizz_buzz.domain.tennis.game.TennisGame;
+import org.fizz_buzz.domain.tennis.game.TiebreakGame;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

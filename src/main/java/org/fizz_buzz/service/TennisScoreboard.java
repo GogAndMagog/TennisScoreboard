@@ -1,9 +1,8 @@
-package org.fizz_buzz.service.tennis;
+package org.fizz_buzz.service;
 
-import org.fizz_buzz.dao.PlayerDAO;
+import org.fizz_buzz.domain.tennis.match.TennisMatch;
 import org.fizz_buzz.dto.PlayerScoreDTO;
 import org.fizz_buzz.dto.TennisScoreboardDTO;
-import org.fizz_buzz.service.tennis.match.TennisMatch;
 
 
 public class TennisScoreboard {
@@ -14,7 +13,7 @@ public class TennisScoreboard {
 
     public static TennisScoreboard getInstance() {
         if (instance == null) {
-            synchronized (PlayerDAO.class) {
+            synchronized (TennisScoreboard.class) {
                 if (instance == null) {
                     instance = new TennisScoreboard();
                 }

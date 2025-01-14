@@ -1,4 +1,4 @@
-package org.fizz_buzz.service.tennis.score;
+package org.fizz_buzz.domain.tennis.score;
 
 public interface Score<T> {
     void setState(T state);

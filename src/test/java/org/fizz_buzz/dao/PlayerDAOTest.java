@@ -20,7 +20,7 @@ class PlayerDAOTest {
         var savedPlayer = dao.create(player1);
 
         var id = savedPlayer.getId();
-        dao.findOne(id).ifPresentOrElse(player ->
+        dao.findById(id).ifPresentOrElse(player ->
                         Assertions.assertEquals(JOHN_NAME, player.getName()),
                 () -> Assertions.fail(PLAYER_NOT_FOUND));
 
@@ -34,7 +34,7 @@ class PlayerDAOTest {
         var dao = PlayerDAO.getInstance();
 
         int id = 1;
-        dao.findOne(id).ifPresentOrElse(player ->
+        dao.findById(id).ifPresentOrElse(player ->
                         Assertions.assertEquals(IVAN_NAME, player.getName()),
                 () -> Assertions.fail(PLAYER_NOT_FOUND));
     }

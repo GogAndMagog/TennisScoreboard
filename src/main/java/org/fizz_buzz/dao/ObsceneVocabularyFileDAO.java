@@ -23,9 +23,13 @@ public class ObsceneVocabularyFileDAO implements VocabularyDAO {
     private ObsceneVocabularyFileDAO() {
     }
 
-    public synchronized static VocabularyDAO getInstance() {
+    public static VocabularyDAO getInstance() {
         if (instance == null) {
-            instance = new ObsceneVocabularyFileDAO();
+            synchronized (MatchDAO.class) {
+                if (instance == null) {
+                    instance = new ObsceneVocabularyFileDAO();
+                }
+            }
         }
         return instance;
     }
@@ -43,8 +47,8 @@ public class ObsceneVocabularyFileDAO implements VocabularyDAO {
                 Path path = Paths.get(url.toURI());
                 obsceneWords.addAll(Files.readAllLines(path, StandardCharsets.UTF_8));
             } catch (URISyntaxException | IOException | RuntimeException e) {
-                    log.error(e.getMessage(), e);
-                    throw new RuntimeException(e);
+                log.error(e.getMessage(), e);
+                throw new RuntimeException(e);
             }
         }
 

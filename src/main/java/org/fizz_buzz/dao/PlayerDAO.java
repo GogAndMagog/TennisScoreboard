@@ -1,7 +1,9 @@
 package org.fizz_buzz.dao;
 
 import lombok.extern.slf4j.Slf4j;
+import org.fizz_buzz.exception.DAOException;
 import org.fizz_buzz.model.Player;
+import org.fizz_buzz.validation.ParamValidator;
 
 import java.util.Optional;
 
@@ -26,14 +28,15 @@ public class PlayerDAO extends AbstractHibernateDao<Player> {
     }
 
     public Optional<Player> findByName(String name) {
-        try(var session = sessionFactory.getSession()) {
+        try (var session = sessionFactory.getSession()) {
             return Optional.ofNullable(session
-                    .createSelectionQuery("FROM Players WHERE name ILIKE :name", Player.class)
+                    .createSelectionQuery("FROM Players WHERE name = :name", Player.class)
                     .setParameter("name", name)
                     .uniqueResult());
         } catch (RuntimeException e) {
-            log.error(e.getMessage(), e);
-            throw e;
+            throw new DAOException(this.clazz.toString(),
+                    "Can't find by name %s".formatted(name),
+                    e);
         }
     }
 

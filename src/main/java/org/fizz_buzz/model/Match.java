@@ -1,17 +1,13 @@
 package org.fizz_buzz.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.util.Optional;
 import java.util.UUID;
 
 @Entity(name = "Matches")
@@ -27,16 +23,16 @@ public class Match implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @OneToOne
-    @JoinColumn(name = "player1", nullable = false)
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "player1")
     private Player player1;
 
-    @OneToOne
-    @JoinColumn(name = "player2", nullable = false)
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "player2")
     Player player2;
 
-    @OneToOne
-    @JoinColumn(name = "winner", nullable = false)
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "winner")
     Player winner;
 
     UUID uuid;

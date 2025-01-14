@@ -1,4 +1,4 @@
-package org.fizz_buzz.service.tennis.score.state;
+package org.fizz_buzz.domain.tennis.score.state;
 
 import lombok.AllArgsConstructor;
 

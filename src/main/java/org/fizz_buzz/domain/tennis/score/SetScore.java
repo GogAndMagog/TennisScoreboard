@@ -1,4 +1,4 @@
-package org.fizz_buzz.service.tennis.score;
+package org.fizz_buzz.domain.tennis.score;
 
 import java.util.Objects;
 
@@ -43,5 +43,10 @@ public class SetScore implements Score<Integer> {
         } else {
             return false;
         }
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(state);
     }
 }

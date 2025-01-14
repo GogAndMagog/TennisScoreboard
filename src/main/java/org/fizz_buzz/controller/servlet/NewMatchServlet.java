@@ -7,7 +7,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.fizz_buzz.dao.PlayerDAO;
 import org.fizz_buzz.model.Player;
-import org.fizz_buzz.controller.MatchScoreController;
+import org.fizz_buzz.service.OngoingMatchService;
 
 import java.io.IOException;
 
@@ -47,7 +47,7 @@ public class NewMatchServlet extends HttpServlet {
             playerDAO.create(new Player(secondPlayerName));
         }
 
-        var matchID = MatchScoreController.getInstance().createMatch(firstPlayerName, secondPlayerName);
+        var matchID = OngoingMatchService.getInstance().createMatch(firstPlayerName, secondPlayerName);
 
         resp.sendRedirect(req.getContextPath()
                 + MATCH_SCORE_PAGE

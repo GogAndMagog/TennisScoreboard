@@ -1,6 +1,7 @@
 package org.fizz_buzz.service.tennis.set;
 
-import org.fizz_buzz.service.tennis.game.TiebreakGame;
+import org.fizz_buzz.domain.tennis.game.TiebreakGame;
+import org.fizz_buzz.domain.tennis.set.TennisSet;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

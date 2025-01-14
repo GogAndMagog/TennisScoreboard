@@ -1,8 +1,8 @@
-package org.fizz_buzz.service.tennis.game;
+package org.fizz_buzz.domain.tennis.game;
 
-import org.fizz_buzz.service.tennis.PlayerInfo;
-import org.fizz_buzz.service.tennis.score.StandardGameScore;
-import org.fizz_buzz.service.tennis.score.state.StandardGameScoreState;
+import org.fizz_buzz.domain.tennis.PlayerInfo;
+import org.fizz_buzz.domain.tennis.score.StandardGameScore;
+import org.fizz_buzz.domain.tennis.score.state.StandardGameScoreState;
 
 import java.util.Optional;
 

@@ -1,4 +1,4 @@
-package org.fizz_buzz.service.tennis.score;
+package org.fizz_buzz.domain.tennis.score;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

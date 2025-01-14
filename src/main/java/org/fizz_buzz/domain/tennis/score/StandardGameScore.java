@@ -1,7 +1,9 @@
-package org.fizz_buzz.service.tennis.score;
+package org.fizz_buzz.domain.tennis.score;
 
 import lombok.NoArgsConstructor;
-import org.fizz_buzz.service.tennis.score.state.StandardGameScoreState;
+import org.fizz_buzz.domain.tennis.score.state.StandardGameScoreState;
+
+import java.util.Objects;
 
 @NoArgsConstructor
 public class StandardGameScore implements Score<StandardGameScoreState> {
@@ -26,6 +28,11 @@ public class StandardGameScore implements Score<StandardGameScoreState> {
         } else {
             return false;
         }
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(state);
     }
 
     @Override

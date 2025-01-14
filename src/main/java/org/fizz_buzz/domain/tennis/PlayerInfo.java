@@ -1,9 +1,9 @@
-package org.fizz_buzz.service.tennis;
+package org.fizz_buzz.domain.tennis;
 
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import org.fizz_buzz.service.tennis.score.Score;
+import org.fizz_buzz.domain.tennis.score.Score;
 
 @Getter
 @RequiredArgsConstructor

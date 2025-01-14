@@ -1,6 +1,8 @@
 package org.fizz_buzz.service.tennis.score;
 
-import org.fizz_buzz.service.tennis.score.state.StandardGameScoreState;
+import org.fizz_buzz.domain.tennis.score.Score;
+import org.fizz_buzz.domain.tennis.score.StandardGameScore;
+import org.fizz_buzz.domain.tennis.score.state.StandardGameScoreState;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;

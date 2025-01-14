@@ -8,8 +8,11 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.fizz_buzz.dao.MatchDAO;
 import org.fizz_buzz.dto.MatchDTO;
 import org.fizz_buzz.dto.PaginationDTO;
+import org.fizz_buzz.exception.PageNotExistException;
 import org.fizz_buzz.mapper.MatchMapper;
 import org.fizz_buzz.model.Match;
+import org.fizz_buzz.validation.DomainSpecificValidator;
+import org.fizz_buzz.validation.ParamValidator;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -30,6 +33,11 @@ public class MatchesServlet extends HttpServlet {
 
     private static final String MATCHES_PAGE = "/HTML/Matches.jsp";
 
+    private final ParamValidator paramValidator = ParamValidator.getInstance();
+    private final DomainSpecificValidator domainSpecificValidator = DomainSpecificValidator.getInstance();
+
+    private final MatchMapper matchMapper = MatchMapper.getInstance();
+
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -39,28 +47,30 @@ public class MatchesServlet extends HttpServlet {
 
         int pageNumber = 1;
 
-        if (pageNumberString != null){
-            pageNumber = Integer.parseInt(req.getParameter(PAGE_NUMBER_PARAMETER));
+        if (!paramValidator.isEmpty(pageNumberString)) {
+            pageNumber = Integer.parseInt(pageNumberString);
         }
+        if (!domainSpecificValidator.isMatchPageExists(pageNumber)) {
+            throw new PageNotExistException(pageNumber);
+        }
+
 
         var matchesDAO = MatchDAO.getInstance();
 
         List<Match> matches;
         int totalPages;
 
-        if (playerName == null || playerName.isEmpty()){
+        if (paramValidator.isEmpty(playerName)) {
             matches = matchesDAO.findAll(pageNumber);
             totalPages = matchesDAO.totalPages(MatchDAO.DEFAULT_PAGE_SIZE);
-        }
-        else{
+        } else {
             matches = matchesDAO.findByName(playerName, pageNumber);
             totalPages = matchesDAO.totalPages(MatchDAO.DEFAULT_PAGE_SIZE, playerName);
         }
 
-
         List<MatchDTO> matchDTOS = new ArrayList<>();
         for (Match match : matches) {
-            matchDTOS.add(MatchMapper.convertModelToDTO(match));
+            matchDTOS.add(matchMapper.toDTO(match));
         }
 
         var pagination = new PaginationDTO(pageNumber, totalPages);

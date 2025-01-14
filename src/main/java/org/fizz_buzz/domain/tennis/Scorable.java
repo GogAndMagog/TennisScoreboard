@@ -1,6 +1,6 @@
-package org.fizz_buzz.service.tennis;
+package org.fizz_buzz.domain.tennis;
 
-import org.fizz_buzz.service.tennis.score.Score;
+import org.fizz_buzz.domain.tennis.score.Score;
 
 public interface Scorable<T extends Score> {
     void addScoreFirstPlayer();

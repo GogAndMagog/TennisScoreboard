@@ -1,10 +1,10 @@
-package org.fizz_buzz.service.tennis.game;
+package org.fizz_buzz.domain.tennis.game;
 
 import lombok.Getter;
 import lombok.NonNull;
-import org.fizz_buzz.service.tennis.PlayerInfo;
-import org.fizz_buzz.service.tennis.Scorable;
-import org.fizz_buzz.service.tennis.score.Score;
+import org.fizz_buzz.domain.tennis.PlayerInfo;
+import org.fizz_buzz.domain.tennis.Scorable;
+import org.fizz_buzz.domain.tennis.score.Score;
 
 import java.util.Optional;
 

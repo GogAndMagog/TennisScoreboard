@@ -1,9 +1,11 @@
-package org.fizz_buzz.controller.filter;
+package org.fizz_buzz.validation;
 
 import org.fizz_buzz.dao.MatchDAO;
 import org.fizz_buzz.dao.ObsceneVocabularyFileDAO;
-import org.fizz_buzz.dao.PlayerDAO;
 import org.fizz_buzz.dao.VocabularyDAO;
+
+import java.util.HashSet;
+import java.util.Set;
 
 public class ParamValidator {
 
@@ -16,7 +18,7 @@ public class ParamValidator {
 
     public static ParamValidator getInstance() {
         if (instance == null) {
-            synchronized (PlayerDAO.class) {
+            synchronized (ParamValidator.class) {
                 if (instance == null) {
                     instance = new ParamValidator();
                 }
@@ -26,7 +28,7 @@ public class ParamValidator {
     }
 
     public boolean isLongerThan(int maxLength, String param) {
-        if(param == null){
+        if (param == null) {
             return false;
         }
 
@@ -46,16 +48,16 @@ public class ParamValidator {
     }
 
     public boolean isUUID(String param) {
-        return param.matches("[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}");
+        return param != null && param.matches("[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}");
     }
 
     public boolean isNotUnique(String... params) {
-        for (int i = 0; i < params.length; i++) {
-            for (int j = 0; j < params.length; j++) {
-                if (i != j && params[i].replaceAll("\\s+", " ")
-                        .equals(params[j].replaceAll("\\s+", " "))) {
-                    return true;
-                }
+        Set<String> uniqValues = new HashSet<>();
+
+        for (String param : params) {
+            String normalizedParam = param.replaceAll("\\s+", " ");
+            if (!uniqValues.add(normalizedParam)) {
+                return true;
             }
         }
 
@@ -63,27 +65,17 @@ public class ParamValidator {
     }
 
     public boolean isObscene(String param) {
-        return obsceneVocabularyDAO.readAll()
+        return param != null && obsceneVocabularyDAO.readAll()
                 .stream()
                 .anyMatch(param.toLowerCase()::contains);
     }
 
-    public boolean isMatchPageExists(int pageNumber){
+    public boolean isMatchPageExists(int pageNumber) {
         if (pageNumber < 1) {
             return false;
         }
 
         MatchDAO matchDAO = MatchDAO.getInstance();
         return pageNumber <= matchDAO.totalPages(MatchDAO.DEFAULT_PAGE_SIZE);
-    }
-
-
-    public boolean isMatchPageExists(int pageNumber, String playerName){
-        if (pageNumber < 1) {
-            return false;
-        }
-
-        MatchDAO matchDAO = MatchDAO.getInstance();
-        return pageNumber <= matchDAO.totalPages(MatchDAO.DEFAULT_PAGE_SIZE, playerName);
     }
 }

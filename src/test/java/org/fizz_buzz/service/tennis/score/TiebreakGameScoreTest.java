@@ -1,5 +1,7 @@
 package org.fizz_buzz.service.tennis.score;
 
+import org.fizz_buzz.domain.tennis.score.Score;
+import org.fizz_buzz.domain.tennis.score.TiebreakGameScore;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

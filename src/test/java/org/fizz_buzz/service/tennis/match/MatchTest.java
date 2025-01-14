@@ -1,7 +1,8 @@
 package org.fizz_buzz.service.tennis.match;
 
 import lombok.extern.slf4j.Slf4j;
-import org.fizz_buzz.service.tennis.TennisScoreboard;
+import org.fizz_buzz.domain.tennis.match.TennisMatch;
+import org.fizz_buzz.service.TennisScoreboard;
 import org.junit.jupiter.api.Test;
 
 import java.util.UUID;

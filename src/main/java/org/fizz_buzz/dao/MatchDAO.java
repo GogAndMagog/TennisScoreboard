@@ -1,8 +1,12 @@
 package org.fizz_buzz.dao;
 
+import jakarta.persistence.criteria.Selection;
 import lombok.extern.slf4j.Slf4j;
+import org.fizz_buzz.exception.DAOException;
 import org.fizz_buzz.model.Match;
+import org.fizz_buzz.validation.ParamValidator;
 import org.hibernate.query.Order;
+import org.hibernate.query.SelectionQuery;
 
 import java.util.List;
 
@@ -13,13 +17,15 @@ public class MatchDAO extends AbstractHibernateDao<Match> {
 
     public static final int DEFAULT_PAGE_SIZE = 5;
 
+    private ParamValidator paramValidator = ParamValidator.getInstance();
+
     private MatchDAO() {
         setClazz(Match.class);
     }
 
     public static MatchDAO getInstance() {
         if (instance == null) {
-            synchronized (PlayerDAO.class) {
+            synchronized (MatchDAO.class) {
                 if (instance == null) {
                     instance = new MatchDAO();
                 }
@@ -39,35 +45,49 @@ public class MatchDAO extends AbstractHibernateDao<Match> {
                     .setOrder(Order.asc(Match.class, "id"));
             return query.getResultList();
         } catch (Exception e) {
-            log.error(e.getMessage(), e);
-            throw new RuntimeException(e);
+            throw new DAOException(this.clazz.toString(), "Can't find by page %d".formatted(page), e);
         }
     }
 
     public List<Match> findByName(String name) {
-        return findByPage(DEFAULT_PAGE_SIZE, 1);
+        return findByName(name, 1);
     }
 
     public List<Match> findByName(String name, int page) {
 
         try (var session = getCurrentSession()) {
-            String sql =
+            String sqlWithNameParameter =
                     """                                        
                             SELECT m FROM Matches m\s
-                                WHERE   m.player1.name ILIKE :name\s
-                                    OR  m.player2.name ILIKE :name""";
+                                WHERE   m.player1.name LIKE :name\s
+                                    OR  m.player2.name LIKE :name""";
+//            String sqlWithoutParameters =
+//                    """
+//                            SELECT m FROM Matches m\s""";
 
-            var query = session
-                    .createSelectionQuery(sql, Match.class)
-                    .setParameter("name", "%" + name + "%")
-                    .setFirstResult(calculateOffset(page, DEFAULT_PAGE_SIZE))
-                    .setMaxResults(DEFAULT_PAGE_SIZE)
-                    .setOrder(Order.asc(Match.class, "id"));
+//            String sql;
+            SelectionQuery<Match> query;
+
+//            if (paramValidator.isEmpty(name)) {
+//                query = session
+//                        .createSelectionQuery(sqlWithoutParameters, Match.class)
+//                        .setFirstResult(calculateOffset(page, DEFAULT_PAGE_SIZE))
+//                        .setMaxResults(DEFAULT_PAGE_SIZE)
+//                        .setOrder(Order.asc(Match.class, "id"));
+//            } else {
+                query = session
+                        .createSelectionQuery(sqlWithNameParameter, Match.class)
+                        .setParameter("name", "%" + name.toLowerCase() + "%")
+                        .setFirstResult(calculateOffset(page, DEFAULT_PAGE_SIZE))
+                        .setMaxResults(DEFAULT_PAGE_SIZE)
+                        .setOrder(Order.asc(Match.class, "id"));
+//            }
 
             return query.getResultList();
         } catch (Exception e) {
-            log.error(e.getMessage(), e);
-            throw new RuntimeException(e);
+            throw new DAOException(this.clazz.toString(),
+                    "Can't find by page %d with name %s".formatted(page, name),
+                    e);
         }
     }
 
@@ -88,41 +108,53 @@ public class MatchDAO extends AbstractHibernateDao<Match> {
             var query = session.createSelectionQuery(sql, Long.class);
 
             var totalRows = query.uniqueResult().intValue();
-            var pageNumbers = totalRows / pageSize;
-            if (totalRows % pageSize != 0) {
-                pageNumbers++;
-            }
-
-            return pageNumbers;
+            return calculateTotalPages(totalRows, pageSize);
         } catch (Exception e) {
-            log.error(e.getMessage(), e);
-            throw new RuntimeException(e);
+            throw new DAOException(this.clazz.toString(),
+                    "Can't get total pages",
+                    e);
         }
     }
 
     public int totalPages(int pageSize, String playerName) {
         try (var session = getCurrentSession()) {
-            String sql =
+            String sqlWithNameParameter =
                     """                                        
                             SELECT COUNT(m) FROM Matches m
-                                WHERE   m.player1.name ILIKE :name\s
-                                    OR  m.player2.name ILIKE :name
+                                WHERE   m.player1.name LIKE :name\s
+                                    OR  m.player2.name LIKE :name
                             """;
 
-            var query = session
-                    .createSelectionQuery(sql, Long.class)
-                    .setParameter("name", "%" + playerName + "%");
+//            String sqlWithoutNameParameter =
+//                    """
+//                            SELECT m FROM Matches m\s""";
+
+            SelectionQuery<Long> query;
+
+//            if (paramValidator.isEmpty(playerName)) {
+//                query = session
+//                        .createSelectionQuery(sqlWithoutNameParameter, Long.class);
+//            } else {
+                query = session
+                        .createSelectionQuery(sqlWithNameParameter, Long.class)
+                        .setParameter("name", "%" + playerName.toLowerCase() + "%");
+//            }
 
             var totalRows = query.uniqueResult().intValue();
-            var pageNumbers = totalRows / pageSize;
-            if (totalRows % pageSize != 0) {
-                pageNumbers++;
-            }
-
-            return pageNumbers;
+            return calculateTotalPages(totalRows, pageSize);
         } catch (Exception e) {
-            log.error(e.getMessage(), e);
-            throw new RuntimeException(e);
+            throw new DAOException(this.clazz.toString(),
+                    "Can't get total pages for name %s".formatted(playerName),
+                    e);
         }
+    }
+
+    private int calculateTotalPages(int totalRows, int pageSize) {
+        var pageNumbers = totalRows / pageSize;
+        if (totalRows % pageSize != 0) {
+            pageNumbers++;
+        }
+
+        return pageNumbers;
     }
 }

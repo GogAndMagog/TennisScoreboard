@@ -1,12 +1,12 @@
-package org.fizz_buzz.service.tennis.set;
+package org.fizz_buzz.domain.tennis.set;
 
 import lombok.Getter;
-import org.fizz_buzz.service.tennis.PlayerInfo;
-import org.fizz_buzz.service.tennis.Scorable;
-import org.fizz_buzz.service.tennis.game.StandardGame;
-import org.fizz_buzz.service.tennis.game.TennisGame;
-import org.fizz_buzz.service.tennis.game.TiebreakGame;
-import org.fizz_buzz.service.tennis.score.SetScore;
+import org.fizz_buzz.domain.tennis.PlayerInfo;
+import org.fizz_buzz.domain.tennis.Scorable;
+import org.fizz_buzz.domain.tennis.game.StandardGame;
+import org.fizz_buzz.domain.tennis.game.TennisGame;
+import org.fizz_buzz.domain.tennis.game.TiebreakGame;
+import org.fizz_buzz.domain.tennis.score.SetScore;
 
 import java.util.Optional;
 
