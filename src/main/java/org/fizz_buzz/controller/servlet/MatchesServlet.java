@@ -64,6 +64,7 @@ public class MatchesServlet extends HttpServlet {
             matches = matchesDAO.findAll(pageNumber);
             totalPages = matchesDAO.totalPages(MatchDAO.DEFAULT_PAGE_SIZE);
         } else {
+            playerName = playerName.trim().replaceAll("\\s+", " ");
             matches = matchesDAO.findByName(playerName, pageNumber);
             totalPages = matchesDAO.totalPages(MatchDAO.DEFAULT_PAGE_SIZE, playerName);
         }
