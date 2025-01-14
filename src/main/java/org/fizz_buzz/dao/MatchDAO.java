@@ -61,27 +61,14 @@ public class MatchDAO extends AbstractHibernateDao<Match> {
                             SELECT m FROM Matches m\s
                                 WHERE   m.player1.name LIKE :name\s
                                     OR  m.player2.name LIKE :name""";
-//            String sqlWithoutParameters =
-//                    """
-//                            SELECT m FROM Matches m\s""";
 
-//            String sql;
             SelectionQuery<Match> query;
-
-//            if (paramValidator.isEmpty(name)) {
-//                query = session
-//                        .createSelectionQuery(sqlWithoutParameters, Match.class)
-//                        .setFirstResult(calculateOffset(page, DEFAULT_PAGE_SIZE))
-//                        .setMaxResults(DEFAULT_PAGE_SIZE)
-//                        .setOrder(Order.asc(Match.class, "id"));
-//            } else {
-                query = session
-                        .createSelectionQuery(sqlWithNameParameter, Match.class)
-                        .setParameter("name", "%" + name.toLowerCase() + "%")
-                        .setFirstResult(calculateOffset(page, DEFAULT_PAGE_SIZE))
-                        .setMaxResults(DEFAULT_PAGE_SIZE)
-                        .setOrder(Order.asc(Match.class, "id"));
-//            }
+            query = session
+                    .createSelectionQuery(sqlWithNameParameter, Match.class)
+                    .setParameter("name", "%" + name.toLowerCase() + "%")
+                    .setFirstResult(calculateOffset(page, DEFAULT_PAGE_SIZE))
+                    .setMaxResults(DEFAULT_PAGE_SIZE)
+                    .setOrder(Order.asc(Match.class, "id"));
 
             return query.getResultList();
         } catch (Exception e) {
@@ -125,20 +112,11 @@ public class MatchDAO extends AbstractHibernateDao<Match> {
                                     OR  m.player2.name LIKE :name
                             """;
 
-//            String sqlWithoutNameParameter =
-//                    """
-//                            SELECT m FROM Matches m\s""";
-
             SelectionQuery<Long> query;
 
-//            if (paramValidator.isEmpty(playerName)) {
-//                query = session
-//                        .createSelectionQuery(sqlWithoutNameParameter, Long.class);
-//            } else {
-                query = session
-                        .createSelectionQuery(sqlWithNameParameter, Long.class)
-                        .setParameter("name", "%" + playerName.toLowerCase() + "%");
-//            }
+            query = session
+                    .createSelectionQuery(sqlWithNameParameter, Long.class)
+                    .setParameter("name", "%" + playerName.toLowerCase() + "%");
 
             var totalRows = query.uniqueResult().intValue();
             return calculateTotalPages(totalRows, pageSize);
