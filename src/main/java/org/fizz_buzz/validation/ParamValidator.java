@@ -55,7 +55,7 @@ public class ParamValidator {
         Set<String> uniqValues = new HashSet<>();
 
         for (String param : params) {
-            String normalizedParam = param.replaceAll("\\s+", " ");
+            String normalizedParam = param.trim().replaceAll("\\s+", " ");
             if (!uniqValues.add(normalizedParam)) {
                 return true;
             }

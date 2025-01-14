@@ -31,8 +31,8 @@ public class NewMatchServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String firstPlayerName = req.getParameter(FIRST_PLAYER_PARAMETER).replaceAll("\\s+", " ");
-        String secondPlayerName = req.getParameter(SECOND_PLAYER_PARAMETER).replaceAll("\\s+", " ");
+        String firstPlayerName = req.getParameter(FIRST_PLAYER_PARAMETER).trim().replaceAll("\\s+", " ");
+        String secondPlayerName = req.getParameter(SECOND_PLAYER_PARAMETER).trim().replaceAll("\\s+", " ");
 
         var playerDAO = PlayerDAO.getInstance();
 
